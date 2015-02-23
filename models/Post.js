@@ -9,4 +9,4 @@ var postSchema = new mongoose.Schema({
   postBody: String
 });
 
-module.exports = mongoose.model('Post', makeupSchema);
+module.exports = mongoose.model('Post', postSchema);
