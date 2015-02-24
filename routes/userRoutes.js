@@ -1,7 +1,7 @@
 'use strict';
 
 var User = require('../models/User');
-var Segment = require('../models/Segment')
+var Segment = require('../models/Segment');
 
 module.exports = function(app) {
   app.post('/create_user', function(req, res) {
@@ -9,20 +9,27 @@ module.exports = function(app) {
     newUser.createdAt = new Date();
     newUser.basic.email = req.body.email;
     newUser.basic.password = req.body.password;
-    newUser.
+    newUser.username = req.username;
+    newUser.location = req.location;
+
+    newUser.save(function(err, user) {
+      if(err) return res.status(500).send({msg:'could not save'});
+      res.send('user created');
+    });
   });
 
   app.get('/:name', function(req, res) {
     var posts = [];
     var postCount;
-    var useres {};
-    Segment.find({author: req.params.name}, function(err, segments){
-      if (err) res.status(500).send({msg: 'could not find segments'});
+    var useres = {};
+    Segment.find({author: req.params.name}, function(err, segments) {
+      if (err) return res.status(500).send({msg: 'could not find segments'});
         postCount = segments.length < 25 ? segments.length : 25;
         for(var i = 0; i < postCount; i++) {
           posts.push(segments[i]);
         }
         User.findOne({username: req.params.name}, function(err, user) {
+          if(err) return res.status(500).send({msg:'could not find user'});
           useres.name = user.username;
           useres.posts = posts;
           useres.location = user.location;
