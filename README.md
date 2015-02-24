@@ -2,16 +2,16 @@
 
 ##POST /user/create_user
 
-####Creates a new user with the posted attributes. Will initialize time created and
+Creates a new user with the posted attributes. Will initialize time created and
 favorites on being saved to the database. 
 
 ###Request Body
 
-####screenname (string)
+####username (string)
 
 required
 
-the users screenname, this will also be referenced as the segment author
+the users username, this will also be referenced as the segment author
 
 ####email (string)
 
@@ -19,15 +19,19 @@ required
 
 the users email address
 
+####password (string)
+
+user password
+
 ####location (string)
 
 optional
 
 the users location
 
-##POST /segments/createSegment
+##POST /segments/newSegment
 
-####Creates a new segment with the posted attributes. Will initialize time created, favorites
+Creates a new segment with the posted attributes. Will initialize time created, favorites
  and segment id at database save. Returns segment.
 
 ### Request Body
@@ -59,7 +63,7 @@ the screenname of the user that created the segment.
 
 ##GET /user/:screenname
 
-####returns a users profile with their last 25 posts (or all of them if there's less than 25)
+returns a users profile with their last 25 posts (or all of them if there's less than 25)
 
 ##Params
 
@@ -89,6 +93,8 @@ The time that the user was created
 
 ##GET /story/:storyId
 
+Returns a story object
+
 ##Params
 
 ###storyId
@@ -101,16 +107,8 @@ The Id number of the story that you want to fetch.
 
 ####storyId
 
-the story's Id number
+The Id number for the story.
 
 ####levels
 
 An array of arrays. Each array represents a level and each item in that array is a segment object.
-
-
-
-
-
-
-
-
