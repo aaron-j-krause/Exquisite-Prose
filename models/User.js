@@ -13,4 +13,4 @@ var userSchema = new mongoose.Schema({
     favorites: Number
 });
 
-
+module.exports = mongoose.model('User', userSchema);
