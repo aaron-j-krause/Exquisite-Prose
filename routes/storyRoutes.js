@@ -1,29 +1,27 @@
 var mongoose = require('mongoose');
 var User = require('../models/User.js');
 var Segment = require('../models/Segment.js');
-
-module.exports = function(router){
-  router.get('/:story', function(req, res){
+var count;
+module.exports = function(router) {
+  router.get('/:story', function(req, res) {
     var story = {
       storyId: req.params.story,
       levels: []
     };
-    var number = Number(req.params.story)
+    var number = Number(req.params.story);
     story.levels = [];
-    Segment.find({}, function(err, segments){
-      console.log(segments);
-    })
-    Segment.find({storyId: number}, function(err, segments){
-      console.log('BINK');
-      console.log(typeof req.params.story)
-      console.log(segments);
+    Segment.find({storyId: number}, function(err, segments) {
+      var charCount = 0;
+      count = segments.length;
       if (err) return res.status(500).send('could not find story');
-      for(var i = 0; i < segments.length; i++){
-        console.log('BONK')
-          console.log('LEVEL ID', segments[i].text);
-          story.levels[segments[i].levelId] = segments[i];
-        }
+      for (var i = 0; i < segments.length; i++) {
+        if (!story.levels[segments[i].levelId])
+          story.levels[segments[i].levelId] = [];
+        story.levels[segments[i].levelId].push(segments[i]);
+        charCount += segments[i].postBody.length;
+      }
+      console.log(count, 'SEGMENTS and ', charCount, ' CHARACTERS');
       res.json(story);
-    })
-  })
-}
+    });
+  });
+};

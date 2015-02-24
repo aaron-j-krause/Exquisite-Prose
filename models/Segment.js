@@ -3,9 +3,9 @@
 var mongoose = require('mongoose');
 
 var segmentSchema = new mongoose.Schema({
-  storyID: String,
-  author: mongoose.Schema.Types.ObjectId,
-  levelID: Number,
+  storyId: Number,
+  author: String,
+  levelId: Number,
   postBody: String,
   createdAt: Date,
   favorited: Number
