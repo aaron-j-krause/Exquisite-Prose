@@ -8,14 +8,22 @@ module.exports = function(router){
       storyId: req.params.story,
       levels: []
     };
+    var number = Number(req.params.story)
     story.levels = [];
-    Segment.find({storyId: req.params.story}, function(err, segments){
+    Segment.find({}, function(err, segments){
+      console.log(segments);
+    })
+    Segment.find({storyId: number}, function(err, segments){
+      console.log('BINK');
+      console.log(typeof req.params.story)
+      console.log(segments);
       if (err) return res.status(500).send('could not find story');
       for(var i = 0; i < segments.length; i++){
-          story.levels[segments[i].levelId] && story.levels[segments[i].levelId] = segment;
+        console.log('BONK')
+          console.log('LEVEL ID', segments[i].text);
+          story.levels[segments[i].levelId] = segments[i];
         }
       res.json(story);
-      }
     })
   })
 }
