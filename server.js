@@ -29,7 +29,7 @@ app.use('/user', userRouter);
 app.use('/story', storyRouter);
 app.use('/segments', segmentRouter);
 
-app.post('/', function(req, res) {
+app.get('/', function(req, res) {
   res.send('hello world');
 });
 
