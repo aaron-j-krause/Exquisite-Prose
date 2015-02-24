@@ -5,7 +5,7 @@ var app = express();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
-var assignUserRoutes = require('./routes/storyRoutes.js');
+var assignUserRoutes = require('./routes/userRoutes.js');
 var assignStoryRoutes = require('./routes/storyRoutes.js');
 var assignSegmentRoutes = require('./routes/segmentsRoutes');
 
