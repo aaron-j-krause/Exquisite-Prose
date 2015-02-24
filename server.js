@@ -5,7 +5,7 @@ var app = express();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
-var assignUserRoutes; //require('yourroutefilehere')
+var assignUserRoutes = require('./routes/storyRoutes.js');
 var assignStoryRoutes = require('./routes/storyRoutes.js');
 var assignSegmentRoutes = require('./routes/segmentsRoutes');
 
@@ -21,15 +21,15 @@ var userRouter = express.Router();
 var storyRouter = express.Router();
 var segmentRouter = express.Router();
 
-//assignUserRoutes(userRouter);
+assignUserRoutes(userRouter);
 assignStoryRoutes(storyRouter);
 assignSegmentRoutes(segmentRouter);
 
-//app.use('/user', userRouter); uncomment when your route is required above
+app.use('/user', userRouter);
 app.use('/story', storyRouter);
 app.use('/segments', segmentRouter);
 
-app.get('/', function(req, res) {
+app.post('/', function(req, res) {
   res.send('hello world');
 });
 
