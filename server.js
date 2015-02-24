@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var assignUserRoutes; //require('yourroutefilehere')
-var assignStoryRoutes; //require('yourroutefilehere')
+var assignStoryRoutes = require('./routes/storyRoutes.js');
 var assignSegmentRoutes; //require('yourroutefilehere')
 
 //db connection
@@ -23,11 +23,11 @@ var storyRouter = express.Router();
 var segmentRouter = express.Router();
 
 //assignUserRoutes(userRouter);
-//assignStoryRoutes(storyRouter);
+assignStoryRoutes(storyRouter);
 //assignSegmentRoutes(segmentRouter);
 
 //app.use('/user', userRouter); uncomment when your route is required above
-//app.use('/story', storyRouter); uncomment when your route is required above
+app.use('/story', storyRouter);
 //app.use('/segments', segmentRouter); uncomment when your route is required above
 
 app.get('/', function(req, res){
