@@ -9,8 +9,8 @@ module.exports = function(app) {
     newUser.createdAt = new Date();
     newUser.basic.email = req.body.email;
     newUser.basic.password = req.body.password;
-    newUser.username = req.username;
-    newUser.location = req.location;
+    newUser.username = req.body.username;
+    newUser.location = req.body.location;
 
     newUser.save(function(err, user) {
       if(err) return res.status(500).send({msg:'could not save'});
@@ -18,17 +18,19 @@ module.exports = function(app) {
     });
   });
 
-  app.get('/:name', function(req, res) {
+  app.get('/:screenname', function(req, res) {
+    console.log(req.params.screenname)
     var posts = [];
     var postCount;
     var useres = {};
-    Segment.find({author: req.params.name}, function(err, segments) {
+    Segment.find({author: req.params.screenname}, function(err, segments) {
       if (err) return res.status(500).send({msg: 'could not find segments'});
+        console.log(segments);
         postCount = segments.length < 25 ? segments.length : 25;
         for(var i = 0; i < postCount; i++) {
           posts.push(segments[i]);
         }
-        User.findOne({username: req.params.name}, function(err, user) {
+        User.findOne({username: req.params.screenname}, function(err, user) {
           if(err) return res.status(500).send({msg:'could not find user'});
           useres.name = user.username;
           useres.posts = posts;
