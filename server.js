@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var express = require('express');
 var app = express();
@@ -29,10 +29,10 @@ assignSegmentRoutes(segmentRouter);
 app.use('/story', storyRouter);
 app.use('/segments', segmentRouter);
 
-app.get('/', function(req, res){
-  res.send('hello world')
-})
+app.get('/', function(req, res) {
+  res.send('hello world');
+});
 
-app.listen((process.env.PORT || 3000), function(){
-  console.log('server listening on port: ' + (process.env.PORT || 3000))
+app.listen((process.env.PORT || 3000), function() {
+  console.log('server listening on port: ' + (process.env.PORT || 3000));
 });

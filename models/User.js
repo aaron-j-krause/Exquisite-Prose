@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema({
         password: String
     },
     username: String,
-    created_at: Date,
+    createdAt: Date,
     location: String,
     favorites: Number
 });

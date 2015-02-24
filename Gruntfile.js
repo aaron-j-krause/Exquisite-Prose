@@ -7,7 +7,8 @@ module.exports = function(grunt) {
       options:{
         jshintrc:true
       },
-    files:['*.js', 'lib/**/*.js', 'test/**/*.js']
+    files:['*.js', 'lib/**/*.js', 'test/**/*.js',
+            'routes/**/*.js', 'models/**/*.js']
     },
     jscs: {
       all: {
@@ -15,7 +16,8 @@ module.exports = function(grunt) {
           config:'.jscsrc'
         },
         files: {
-          src: ['*.js', 'lib/**/*.js', 'test/**/*.js']
+          src: ['*.js', 'lib/**/*.js', 'test/**/*.js',
+                  'routes/**/*.js', 'models/**/*.js']
         }
       }
     }
