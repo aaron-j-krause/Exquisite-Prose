@@ -4,11 +4,11 @@ var mongoose = require('mongoose');
 
 var userSchema = new mongoose.Schema({
     basic: {
-        email: String,
-        password: String
+        email: {type: String, unique: true, required: true},
+        password: {type: String, required: true}
     },
-    username: String,
-    createdAt: Date,
+    screenname: {type: String, unique: true, required: true},
+    createdAt: String,
     location: String,
     favorites: Number
 });
