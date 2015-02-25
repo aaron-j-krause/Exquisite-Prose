@@ -9,12 +9,13 @@ module.exports = function(app) {
     newUser.createdAt = new Date();
     newUser.basic.email = req.body.email;
     newUser.basic.password = req.body.password;
-    newUser.username = req.username;
-    newUser.location = req.location;
+    newUser.username = req.body.username;
+    newUser.location = req.body.location;
 
     newUser.save(function(err, user) {
       if(err) return res.status(500).send({msg:'could not save'});
-      res.send('user created');
+
+      res.json(user);
     });
   });
 
