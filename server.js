@@ -4,7 +4,6 @@ var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var morgan = require('morgan');
 var assignUserRoutes = require('./routes/userRoutes.js');
 var assignStoryRoutes = require('./routes/storyRoutes.js');
 var assignSegmentRoutes = require('./routes/segmentsRoutes');
@@ -14,7 +13,6 @@ mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db');
 
 //middleware
 app.use(bodyParser.json());
-app.use(morgan('dev'));
 
 //routes
 var userRouter = express.Router();
