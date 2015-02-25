@@ -10,7 +10,7 @@ var assignStoryRoutes = require('./routes/storyRoutes.js');
 var assignSegmentRoutes = require('./routes/segmentsRoutes');
 
 //db connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/dev_db');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db');
 
 //middleware
 app.use(bodyParser.json());
