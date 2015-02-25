@@ -20,13 +20,13 @@ describe('user api end point', function() {
          chai.request('localhost:3000/user')
             .post('/create_user')
             .send({email: 'test@email.com', password: '1234abc',
-            username: 'testUser', location: 'Washington'})
+            screenname: 'testUser', location: 'Washington'})
             .end(function(err, res) {
                 expect(err).to.eql(null);
                 expect(res.body.createdAt).to.not.equal(null);
                 expect(res.body.basic.email).to.eql('test@email.com');
                 expect(res.body.basic.password).to.eql('1234abc');
-                expect(res.body.username).to.eql('testUser');
+                expect(res.body.screenname).to.eql('testUser');
                 expect(res.body.location).to.eql('Washington');
                 done();
             });
