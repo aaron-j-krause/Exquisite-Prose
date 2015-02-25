@@ -31,6 +31,7 @@ module.exports = function(app) {
       }
       User.findOne({screenname: req.params.screenname}, function(err, user) {
         if (err) return res.status(500).send({msg:'could not find user'});
+        if (!user.screenname) return res.status(500).send({msg: 'err'});
         useres.screenname = user.screenname;
         useres.posts = posts;
         useres.location = user.location;
