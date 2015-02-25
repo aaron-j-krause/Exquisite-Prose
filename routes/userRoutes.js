@@ -6,39 +6,37 @@ var Segment = require('../models/Segment');
 module.exports = function(app) {
   app.post('/create_user', function(req, res) {
     var newUser = new User();
-    newUser.createdAt = new Date();
+    newUser.createdAt = new Date().toString();
     newUser.basic.email = req.body.email;
     newUser.basic.password = req.body.password;
-    newUser.username = req.body.username;
+    newUser.screenname = req.body.screenname;
     newUser.location = req.body.location;
 
     newUser.save(function(err, user) {
-      if(err) return res.status(500).send({msg:'could not save'});
+      if (err) return res.status(500).send({msg:'could not save'});
       res.send('user created');
     });
   });
 
   app.get('/:screenname', function(req, res) {
-    console.log(req.params.screenname)
     var posts = [];
     var postCount;
     var useres = {};
     Segment.find({author: req.params.screenname}, function(err, segments) {
       if (err) return res.status(500).send({msg: 'could not find segments'});
-        console.log(segments);
-        postCount = segments.length < 25 ? segments.length : 25;
-        for(var i = 0; i < postCount; i++) {
-          posts.push(segments[i]);
-        }
-        User.findOne({username: req.params.screenname}, function(err, user) {
-          if(err) return res.status(500).send({msg:'could not find user'});
-          useres.name = user.username;
-          useres.posts = posts;
-          useres.location = user.location;
-          useres.createdAt = user.createdAt;
+      postCount = segments.length < 25 ? segments.length : 25;
+      for (var i = 0; i < postCount; i++) {
+        posts.push(segments[i]);
+      }
+      User.findOne({screenname: req.params.screenname}, function(err, user) {
+        if (err) return res.status(500).send({msg:'could not find user'});
+        useres.screenname = user.screenname;
+        useres.posts = posts;
+        useres.location = user.location;
+        useres.createdAt = user.createdAt;
 
-          res.json(useres);
-        });
+        res.json(useres);
+      });
     });
   });
 };

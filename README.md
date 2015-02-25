@@ -7,11 +7,11 @@ favorites on being saved to the database.
 
 ###Request Body
 
-####username (string)
+####screenname (string)
 
 required
 
-the users username, this will also be referenced as the segment author
+the users screenname, this will also be referenced as the segment author
 
 ####email (string)
 
@@ -29,7 +29,7 @@ optional
 
 the users location
 
-##POST /segments/newSegment
+##POST /segments/new_segment
 
 Creates a new segment with the posted attributes. Will initialize time created, favorites
  and segment id at database save. Returns segment.
@@ -67,7 +67,7 @@ returns a users profile with their last 25 posts (or all of them if there's less
 
 ##Params
 
-###Screenname
+###screenname
 
 required
 
@@ -75,7 +75,7 @@ The users screenname.
 
 ###Response Body
 
-####name
+####screenname
 
 The users screenname.
 

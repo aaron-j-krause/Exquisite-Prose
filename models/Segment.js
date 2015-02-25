@@ -7,7 +7,7 @@ var segmentSchema = new mongoose.Schema({
   author: String,
   levelId: Number,
   postBody: String,
-  createdAt: Date,
+  createdAt: String,
   favorited: Number
 });
 
