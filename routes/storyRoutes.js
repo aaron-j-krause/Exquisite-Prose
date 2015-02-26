@@ -5,24 +5,25 @@ var Story = require('../models/Story.js');
 var count;
 
 function assembleLevels (segments) {
-  var levels;
+  var levelArray = [];
   for (var i = 0; i < segments.length; i++) {
-    if (!levels[segments[i].levelId]) levels[segments[i].levelId] = [];
-    levels[segments[i].levelId].push(segments[i]);
+    if (!levelArray[segments[i].levelId]) levelArray[segments[i].levelId] = [];
+    levelArray[segments[i].levelId].push(segments[i]);
   }
-  return levels;
+  return levelArray;
 }
 
 module.exports = function(router) {
   router.get('/:story', function(req, res) {
     Segment.find({storyId: req.params.story}, function(err, segments) {
       if (err) return res.status(500).send('could not find story');
+      console.log('Segments', segments)
 
       var levels = assembleLevels(segments);
 
       Story.findOne({_id: req.params.story}).populate('firstSegment')
             .exec(function(err, story){
-        if (err) return res.status(500).send({'msg':'could not find story'});
+        if (err || story === null) return res.status(500).send({'msg':'could not find story'});
 
         res.json({story:story, levels:levels});
       })
@@ -42,9 +43,17 @@ module.exports = function(router) {
     Story.find({isComplete: false}).select('_id').exec(function(err, ids){
       if (err) return res.status(500).send('could not find');
       var randomId = ids[Math.floor(Math.random() * ids.length)];
-      Story.find({_id: randomId}, function(err, story) {
-        if (err) return res.status(500).send('could not get story');
-        res.send(story);
+
+      Story.findOne({_id: randomId}, function(err, story) {
+        if (err || story === null) return res.status(500).send('could not get story');
+        console.log("STORY", story, "RANDOM ID", randomId, "STORY ID", story._id);
+        Segment.find({storyId: story._id}, function(err, segments){
+          if (err) return res.status(500).send('could not find');
+
+          var levels = assembleLevels(segments);
+          res.send({story: story, levels: levels});
+       
+        })
       })
     })
 
