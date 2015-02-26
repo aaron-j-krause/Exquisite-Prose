@@ -1,6 +1,6 @@
 'use strict';
 
-var User = require('../models/User');
+var User = require('./../models/User');
 var Segment = require('../models/Segment');
 
 module.exports = function(app) {
@@ -23,20 +23,18 @@ module.exports = function(app) {
     var posts = [];
     var postCount;
     var useres = {};
-    Segment.find({author: req.params.screenname}, function(err, segments) {
-      if (err) return res.status(500).send({msg: 'could not find segments'});
-      postCount = segments.length < 25 ? segments.length : 25;
-      for (var i = 0; i < postCount; i++) {
-        posts.push(segments[i]);
-      }
-      User.findOne({screenname: req.params.screenname}, function(err, user) {
-        if (err) return res.status(500).send({msg:'could not find user'});
-        useres.screenname = user.screenname;
-        useres.posts = posts;
-        useres.location = user.location;
-        useres.createdAt = user.createdAt;
+    console.log('PARAMS', req.params.screenname)
+    User.findOne({screenname: req.params.screenname}, function(err, user) {
+      if (err || user === null) return res.status(500).send({msg:'could not find user'});
 
-        res.json(useres);
+      Segment.find({author: req.params.screenname}, function(err, segments) {
+
+        var userres = {};
+        userres.screenname = user.screenname;
+        userres.location = user.location;
+        userres.createdAt = user.createdAt;
+        var segments = segments.length > 25 ? segments.slice(25) : segments
+        res.json({user:userres, segments:segments});
       });
     });
   });
