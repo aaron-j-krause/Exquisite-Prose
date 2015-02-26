@@ -50,7 +50,7 @@ module.exports = function(router) {
 
           var levels = assembleLevels(segments);
           res.send({story: story, levels: levels});
-       
+
         })
       })
     })

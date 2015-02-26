@@ -44,8 +44,6 @@ module.exports = function(app, passport, appSecret) {
     });
   });
 
-  app.get('/sign_in',)
-
   app.get('/dev/allUsers', function(req, res) {
     User.find({}, function(err, users){
       if (err) return res.status(500).send('could not find');

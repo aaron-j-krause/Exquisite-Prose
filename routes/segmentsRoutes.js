@@ -2,12 +2,13 @@
 
 var Segment = require('../models/Segment');
 var Story = require('../models/Story');
+var eat_auth = require('../lib/eat_auth');
 
 var MAX_SEGMENTS = 43;
 var MAX_LEVEL_SIZE = 3;
-module.exports = function(app) {
+module.exports = function(app, appSecret) {
 
-  app.post('/new_segment', function(req, res) {
+  app.post('/new_segment', eat_auth(appSecret), function(req, res) {
     var newSegment = new Segment(req.body);
     newSegment.createdAt = new Date().toString();
     newSegment.save(function(err, segment) {
@@ -37,9 +38,9 @@ module.exports = function(app) {
             story.levelSpec.currentLevel++;
           };
           story.save(function(err, story) {
-            res.json(story); 
+            res.json(story);
           })
-            
+
         })
       }
     })
@@ -78,8 +79,6 @@ module.exports = function(app) {
 
         res.send(segments);
       })
-
-
     })
   })
 

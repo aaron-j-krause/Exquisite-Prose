@@ -31,7 +31,7 @@ var segmentRouter = express.Router();
 
 assignUserRoutes(userRouter, passport, app.get('appSecret'));
 assignStoryRoutes(storyRouter);
-assignSegmentRoutes(segmentRouter);
+assignSegmentRoutes(segmentRouter, app.get('appSecret'));
 
 app.use('/user', userRouter);
 app.use('/story', storyRouter);
