@@ -49,4 +49,18 @@ module.exports = function(router) {
     })
 
   })
+
+  router.get('/dev/allComplete', function(req, res){
+    Story.find({isComplete: true}, function(err, stories){
+      if (err) return res.status(500).send('could not find');
+      res.send(stories);
+    })
+  })
+
+  router.get('/dev/allIncomplete', function(req, res){
+    Story.find({isComplete: false}, function(err, stories){
+      if (err) return res.status(500).send('could not find');
+      res.send(stories);
+    })
+  })
 };
