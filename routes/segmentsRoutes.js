@@ -21,7 +21,10 @@ module.exports = function(app) {
         });
         newStory.save(function(err, story) {
           if (err) return res.status(500).send(err);
-          res.json(story);
+          segment.update({storyId: story._id}, function(err, thing){
+            if (err) return res.status(500).send(err);
+            res.json(story);
+          })
         });
       } else {
         Story.findOne({_id: segment.storyId}, function(err, story) {
@@ -77,6 +80,13 @@ module.exports = function(app) {
       })
 
 
+    })
+  })
+
+  app.get('/dev/allSegments', function(req, res) {
+    Segment.find({}, function(err, segments){
+      if (err) res.status(500).send(err);
+      res.send(segments);
     })
   })
 };
