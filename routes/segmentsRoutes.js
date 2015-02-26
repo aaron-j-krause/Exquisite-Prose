@@ -82,4 +82,11 @@ module.exports = function(app) {
 
     })
   })
+
+  app.get('/dev/allSegments', function(req, res) {
+    Segment.find({}, function(err, segments){
+      if (err) res.status(500).send(err);
+      res.send(segments);
+    })
+  })
 };
