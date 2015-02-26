@@ -12,7 +12,8 @@ module.exports = function(app, appSecret) {
     var newSegment = new Segment(req.body);
     newSegment.createdAt = new Date().toString();
     newSegment.save(function(err, segment) {
-      if (err) return res.status(500).send({'msg': 'could not save segment'});
+      if (err)
+        return res.status(500).send({'msg': 'could not save segment'});
       if (segment.levelId === 0) {
         var newStory = new Story({
           firstSegment: segment._id,
@@ -22,10 +23,10 @@ module.exports = function(app, appSecret) {
         });
         newStory.save(function(err, story) {
           if (err) return res.status(500).send(err);
-          segment.update({storyId: story._id}, function(err, thing){
+          segment.update({storyId: story._id}, function(err, thing) {
             if (err) return res.status(500).send(err);
             res.json(story);
-          })
+          });
         });
       } else {
         Story.findOne({_id: segment.storyId}, function(err, story) {
@@ -36,56 +37,57 @@ module.exports = function(app, appSecret) {
           if (story.levelSpec.fill >= MAX_LEVEL_SIZE) {
             story.levelSpec.fill = 0;
             story.levelSpec.currentLevel++;
-          };
+          }
           story.save(function(err, story) {
             res.json(story);
-          })
-
-        })
+          });
+        });
       }
-    })
-
+    });
   });
 
   app.get('/seed/:storyId', function(req, res) {
-    Story.findOne({_id: req.params.storyId}).populate('firstSegment').exec(function(err, story){
+    Story.findOne({_id: req.params.storyId}).populate('firstSegment')
+      .exec(function(err, story) {
       if (err) res.status(500).send(err);
       var lastLevel = story.levelSpec.currentLevel - 1;
       if (lastLevel <= 0) {
         res.json({text: story.firstSegment.postBody, storyId: story._id});
       } else {
-      Segment.find({storyId: story._id, levelId: lastLevel}, function(err, segments){
-        if(err) res.status(500).send(err);
-        var randomIndex = Math.floor(Math.random() * segments.length);
-        var text = segments[randomIndex].postBody;
-        res.json({text: text, storyId: story._id});
-      })
+        var query = {storyId: story._id, levelId: lastLevel};
+        Segment.find(query, function(err, segments) {
+          if (err) res.status(500).send(err);
+          var randomIndex = Math.floor(Math.random() * segments.length);
+          var text = segments[randomIndex].postBody;
+          res.json({text: text, storyId: story._id});
+        });
       }
-    })
-  })
+    });
+  });
 
   app.get('/random', function(req, res) {
-    Story.find({isComplete: false}).populate('firstSegment').exec(function(err, stories) {
+    Story.find({isComplete: false}).populate('firstSegment')
+      .exec(function(err, stories) {
       if (err) res.status(500).send(err);
       var text;
       var id;
-      var query = {$or:[]}
-      for(var i in stories){
+      var query = {$or:[]};
+      for (var i in stories) {
         var level = (stories[i].levelSpec.currentLevel - 1);
-        query.$or.push({storyId: stories[i]._id, levelId:level})
+        query.$or.push({storyId: stories[i]._id, levelId:level});
       }
-      Segment.find(query, function(err, segments){
+      Segment.find(query, function(err, segments) {
         if (err) res.status(500).send(err);
 
         res.send(segments);
-      })
-    })
-  })
+      });
+    });
+  });
 
   app.get('/dev/allSegments', function(req, res) {
-    Segment.find({}, function(err, segments){
+    Segment.find({}, function(err, segments) {
       if (err) res.status(500).send(err);
       res.send(segments);
-    })
-  })
+    });
+  });
 };

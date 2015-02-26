@@ -19,7 +19,6 @@ app.set('appSecret', process.env.SECRET || 'chaaaaaaange');
 app.use(passport.initialize());
 assignBasicPassportStrat(passport);
 
-
 //middleware
 app.use(bodyParser.json());
 app.use(morgan('dev'));

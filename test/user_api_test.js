@@ -10,15 +10,15 @@ chai.use(chaihttp);
 var expect = chai.expect;
 
 describe('user api end point', function() {
-  before(function(done){
+  before(function(done) {
     chai.request('localhost:3000')
       .post('/user/create_user')
       .send({email: 'example@email.com', password: '1234abc',
         screenname: 'exampleUser', location: 'examplion'})
-      .end(function(err, res){
+      .end(function(err, res) {
         done();
-      })
-  })
+      });
+  });
 
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
@@ -26,8 +26,8 @@ describe('user api end point', function() {
     });
   });
 
-  it('should respond to a post request to create_user', function(done){
-   chai.request('localhost:3000/user')
+  it('should respond to a post request to create_user', function(done) {
+    chai.request('localhost:3000/user')
       .post('/create_user')
       .send({email: 'test@email.com', password: '1234abc',
         screenname: 'testUser', location: 'Washington'})
@@ -41,17 +41,18 @@ describe('user api end point', function() {
         done();
       });
   });
-  it('should find a user by screenname', function(done){
+
+  it('should find a user by screenname', function(done) {
     chai.request('localhost:3000')
       .get('/user/exampleUser')
-      .end(function(err, res){
+      .end(function(err, res) {
         var user = res.body.user;
         var segments = res.body.segments;
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
         expect(user.screenname).to.eql('exampleUser');
-        expect(segments).to.be.empty;
-        done()
-      })
-  })
+        expect(segments).to.be.empty; //jshint ignore:line
+        done();
+      });
+  });
 });

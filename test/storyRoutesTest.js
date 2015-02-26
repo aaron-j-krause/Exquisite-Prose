@@ -20,53 +20,54 @@ describe('Story Route', function() {
         postBody: 'test post',
         storyName: 'test story'
       })
-      .end(function(err, res){
+      .end(function(err, res) {
         storyId = res.body._id;
         done();
-      })
+      });
+  });
 
-  })
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
       done();
     });
   });
 
-  it('should get a story by id', function(done){
+  it('should get a story by id', function(done) {
     chai.request('localhost:3000')
       .get('/story/' + storyId)
-      .end(function(err, res){
+      .end(function(err, res) {
         var story = res.body.story;
         var levels = res.body.levels;
-        expect(err).to.be.null;
+        expect(err).to.eql(null);
         expect(res).to.have.status(200);
         expect(story.name).to.eql('test story');
-        expect(levels).to.not.be.empty;
+        expect(levels).to.not.be.empty; //jshint ignore:line
         expect(story.firstSegment).to.have.property('levelId');
         done();
-      })
-  })
-  it('should get a random story', function(done){
+      });
+  });
+
+  it('should get a random story', function(done) {
     chai.request('localhost:3000')
       .get('/story/incomplete/random')
       .end(function(err, res) {
         var story = res.body.story;
         var levels = res.body.levels;
-        expect(err).to.be.null;
+        expect(err).to.eql(null);
         expect(res).to.have.status(200);
         expect(story.name).to.eql('test story');
-        expect(levels).to.not.be.empty;
-        expect(story.isComplete).to.be.false;
-        done()
-      })
-  })
-  it('should not be able to get a complete story', function(done){
+        expect(levels).to.not.be.empty; //jshint ignore:line
+        expect(story.isComplete).to.eql(false);
+        done();
+      });
+  });
+
+  it('should not be able to get a complete story', function(done) {
     chai.request('localhost:3000')
       .get('/story/complete/list')
       .end(function(err, res) {
         expect(res).to.have.status(400);
-        done()
-      })
-  })
-
+        done();
+      });
+  });
 });
