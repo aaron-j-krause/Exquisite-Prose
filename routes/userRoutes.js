@@ -3,7 +3,7 @@
 var User = require('../models/User');
 var Segment = require('../models/Segment');
 
-module.exports = function(app) {
+module.exports = function(app, passport, appSecret) {
   app.post('/create_user', function(req, res) {
     var newUser = new User();
     newUser.createdAt = new Date().toString();
@@ -33,6 +33,8 @@ module.exports = function(app) {
       });
     });
   });
+
+  app.get('/sign_in',)
 
   app.get('/dev/allUsers', function(req, res) {
     User.find({}, function(err, users){

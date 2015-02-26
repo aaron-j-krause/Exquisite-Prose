@@ -8,9 +8,17 @@ var morgan = require('morgan');
 var assignUserRoutes = require('./routes/userRoutes.js');
 var assignStoryRoutes = require('./routes/storyRoutes.js');
 var assignSegmentRoutes = require('./routes/segmentsRoutes');
+var passport = require('passport');
+var assignBasicPassportStrat = require('./lib/passport_strat');
 
 //db connection
 mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/dev_db');
+
+//auth
+app.set('appSecret', process.env.SECRET || 'chaaaaaaange');
+app.use(passport.initialize());
+assignBasicPassportStrat(passport);
+
 
 //middleware
 app.use(bodyParser.json());
@@ -21,7 +29,7 @@ var userRouter = express.Router();
 var storyRouter = express.Router();
 var segmentRouter = express.Router();
 
-assignUserRoutes(userRouter);
+assignUserRoutes(userRouter, passport, app.get('appSecret'));
 assignStoryRoutes(storyRouter);
 assignSegmentRoutes(segmentRouter);
 
