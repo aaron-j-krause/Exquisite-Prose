@@ -3,7 +3,7 @@
 var Segment = require('../models/Segment');
 var Story = require('../models/Story');
 
-var MAX_SEGMENTS = 10;
+var MAX_SEGMENTS = 43;
 var MAX_LEVEL_SIZE = 3;
 module.exports = function(app) {
 
