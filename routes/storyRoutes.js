@@ -17,7 +17,6 @@ module.exports = function(router) {
   router.get('/:story', function(req, res) {
     Segment.find({storyId: req.params.story}, function(err, segments) {
       if (err) return res.status(500).send('could not find story');
-      console.log('Segments', segments)
 
       var levels = assembleLevels(segments);
 
@@ -46,7 +45,6 @@ module.exports = function(router) {
 
       Story.findOne({_id: randomId}, function(err, story) {
         if (err || story === null) return res.status(500).send('could not get story');
-        console.log("STORY", story, "RANDOM ID", randomId, "STORY ID", story._id);
         Segment.find({storyId: story._id}, function(err, segments){
           if (err) return res.status(500).send('could not find');
 
