@@ -1,6 +1,6 @@
 'use strict';
 
-var User = require('./../models/User');
+var User = require('../models/User');
 var Segment = require('../models/Segment');
 
 module.exports = function(app) {
@@ -20,15 +20,10 @@ module.exports = function(app) {
   });
 
   app.get('/:screenname', function(req, res) {
-    var posts = [];
-    var postCount;
-    var useres = {};
-    console.log('PARAMS', req.params.screenname)
     User.findOne({screenname: req.params.screenname}, function(err, user) {
       if (err || user === null) return res.status(500).send({msg:'could not find user'});
 
       Segment.find({author: req.params.screenname}, function(err, segments) {
-
         var userres = {};
         userres.screenname = user.screenname;
         userres.location = user.location;
