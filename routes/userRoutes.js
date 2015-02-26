@@ -20,24 +20,16 @@ module.exports = function(app) {
   });
 
   app.get('/:screenname', function(req, res) {
-    var posts = [];
-    var postCount;
-    var useres = {};
-    Segment.find({author: req.params.screenname}, function(err, segments) {
-      if (err) return res.status(500).send({msg: 'could not find segments'});
-      postCount = segments.length < 25 ? segments.length : 25;
-      for (var i = 0; i < postCount; i++) {
-        posts.push(segments[i]);
-      }
-      User.findOne({screenname: req.params.screenname}, function(err, user) {
-        if (err) return res.status(500).send({msg:'could not find user'});
-        if (!user.screenname) return res.status(500).send({msg: 'err'});
-        useres.screenname = user.screenname;
-        useres.posts = posts;
-        useres.location = user.location;
-        useres.createdAt = user.createdAt;
+    User.findOne({screenname: req.params.screenname}, function(err, user) {
+      if (err || user === null) return res.status(500).send({msg:'could not find user'});
 
-        res.json(useres);
+      Segment.find({author: req.params.screenname}, function(err, segments) {
+        var userres = {};
+        userres.screenname = user.screenname;
+        userres.location = user.location;
+        userres.createdAt = user.createdAt;
+        var segments = segments.length > 25 ? segments.slice(25) : segments
+        res.json({user:userres, segments:segments});
       });
     });
   });
