@@ -1,5 +1,7 @@
 #Exquisite Prose API
 
+[![Build Status](https://travis-ci.org/aaroncrows/Exquisite-Prose.svg?branch=master)](https://travis-ci.org/aaroncrows/Exquisite-Prose)
+
 ##POST /user/create_user
 
 Creates a new user with the posted attributes. Will initialize time created and
