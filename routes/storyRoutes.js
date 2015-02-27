@@ -53,8 +53,8 @@ module.exports = function(router) {
 
         })
       })
-    })
 
+    })
   })
 
   router.get('/dev/allComplete', function(req, res){
