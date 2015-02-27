@@ -14,10 +14,11 @@ module.exports = function(app, passport, appSecret) {
 
     newUser.save(function(err, user) {
       if(err) return res.status(500).send({msg:'could not save'});
+      console.log()
 
       user.generateToken(appSecret, function(err, token) {
         if (err) return res.status(500).send({msg: 'could not generate token'});
-        res.json({eat: token});
+        res.json({user: user.screenname, eat: token});
       })
     });
   });
