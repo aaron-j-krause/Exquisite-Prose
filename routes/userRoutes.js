@@ -13,7 +13,7 @@ module.exports = function(app, passport, appSecret) {
     newUser.location = req.body.location;
 
     newUser.save(function(err, user) {
-      if(err) return res.status(500).send({msg:'could not save'});
+      if (err) return res.status(500).send({msg:'could not save'});
 
       user.generateToken(appSecret, function(err, token) {
         if (err) return res.status(500).send({msg: 'could not generate token'});

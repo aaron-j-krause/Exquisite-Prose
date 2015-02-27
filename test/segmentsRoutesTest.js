@@ -11,16 +11,16 @@ var expect = chai.expect;
 
 describe('segments api end points', function() {
   var token;
-  before(function(done){
-  chai.request('localhost:3000')
+  before(function(done) {
+    chai.request('localhost:3000')
     .post('/user/create_user')
     .send({email: 'example@email.com', password: '1234abc',
       screenname: 'exampleUser', location: 'examplion'})
-    .end(function(err, res){
+    .end(function(err, res) {
       token = res.body.eat;
       done();
-    })
-  })
+    });
+  });
   after(function(done) {
     mongoose.connection.db.dropDatabase(function() {
       done();
