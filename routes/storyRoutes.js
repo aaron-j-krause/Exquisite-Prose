@@ -55,11 +55,11 @@ module.exports = function(router) {
 
           var levels = assembleLevels(segments);
           res.send({story: story, levels: levels});
-
         });
       });
     });
   });
+
 
   router.get('/dev/allComplete', function(req, res) {
     Story.find({isComplete: true}, function(err, stories) {

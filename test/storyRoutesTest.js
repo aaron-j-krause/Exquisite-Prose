@@ -10,19 +10,28 @@ require('../server.js');
 var expect = chai.expect;
 
 describe('Story Route', function() {
+  var token;
   var storyId;
-  before(function(done) {
+  before(function(done){
     chai.request('localhost:3000')
-      .post('/segments/new_segment')
-      .send({
-        author: 'test author',
-        levelId: 0,
-        postBody: 'test post',
-        storyName: 'test story'
-      })
-      .end(function(err, res) {
-        storyId = res.body._id;
-        done();
+      .post('/user/create_user')
+      .send({email: 'example@email.com', password: '1234abc',
+        screenname: 'exampleUser', location: 'examplion'})
+      .end(function(err, res){
+        token = res.body.eat;
+        chai.request('localhost:3000')
+          .post('/segments/new_segment')
+          .set('eat', token)
+          .send({
+            author: 'exampleUser',
+            levelId: 0,
+            postBody: 'test post',
+            storyName: 'test story'
+          })
+          .end(function(err, res){
+            storyId = res.body._id;
+            done();
+          });
       });
   });
 
