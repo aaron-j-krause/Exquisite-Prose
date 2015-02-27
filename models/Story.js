@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-
 'use strict';
+
+var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
@@ -16,7 +16,5 @@ var storySchema = new Schema({
   },
   firstSegment: {type: Schema.Types.ObjectId, ref:'Segment'}
 });
-
-
 
 module.exports = mongoose.model('Story', storySchema);
